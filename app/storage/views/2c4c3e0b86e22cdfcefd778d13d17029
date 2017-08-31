@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" href="<?php echo url().'/public/themes/uploads/favicon.png'; ?>">
+    <title><?php echo 'Guest Files' .' | '. $data['settings']->sitename; ?> </title>
+    <!-- Bootstrap Core CSS -->
+    <?php echo HTML::style('public/themes/z-Responsive/assets/css/bootstrap_2.min.css'); ?>
+
+    <!-- Font Awesome Fonts -->
+    <?php echo HTML::style('public/themes/z-Responsive/assets/font-awesome/css/font-awesome.min.css'); ?>
+
+    <!-- Custom CSS -->
+    <?php echo HTML::style('public/themes/z-Responsive/assets/css/social.css'); ?>
+
+    <?php echo HTML::style('public/themes/z-Responsive/assets/css/navbar.css'); ?>
+
+    <?php echo HTML::style('public/themes/z-Responsive/assets/css/jquery.frontbox-1.1.css'); ?>
+
+    <?php echo HTML::style('public/themes/z-Responsive/assets/css/home.css'); ?>
+
+    
+<link href='https://fonts.googleapis.com/css?family=Ubuntu:400,300,500,700' rel='stylesheet' type='text/css'>
+       <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+
+<nav style="border-radius:0;" class="navbar navbar-default navbar-xs" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+      <a class="navbar-brand" href="<?php echo url('/'); ?>">
+        <img alt="Brand" src="<?php echo url().'/public/themes/uploads/logo.png'; ?>">
+      </a>
+    </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-right top-nav">
+        <?php if( !Auth::check() ): ?> 
+            <li><a href="<?php echo url('/auth/login'); ?>">
+                <i class="fa fa-lock"></i> Login</a>
+            </li>
+            <li style="margin-left:20px;"><a href="<?php echo url('/auth/signup'); ?>">
+                <i class="fa fa-user-plus"></i> SignUp</a>
+            </li>
+        <?php else: ?> 
+            <li class="dropdown">
+                <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                  <i class="fa fa-user"></i>
+                   | <?php echo Auth::user()->username; ?> <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                    <?php if(Auth::user()->level === 'admin'): ?>                              
+                    <li>
+                        <a href="<?php echo URL().'/admin'; ?>">
+                          <i class="fa fa-fw fa-tasks"></i> Admin Panel
+                        </a>
+                    </li>   
+                    <?php endif; ?>
+                    <li>
+                        <a href="<?php echo url('/user/'.Auth::user()->username); ?>">
+                            <i class="fa fa-fw fa-user"></i> My Profile
+                        </a>
+                        <a href="<?php echo url('/user/'.Auth::user()->username.'/settings'); ?>">
+                            <i class="fa fa-fw fa-gear"></i> Settings
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo URL(); ?>/logout"><i class="fa fa-fw fa-sign-out"></i> Logout</a>
+                    </li>
+                </ul>
+            </li>
+        <?php endif; ?>      
+        </ul>
+    
+  </div><!-- /.navbar-collapse -->
+</nav>
+
+<?php if( Social::find(1) ): ?>
+<!-- SOCIAL Media SIDEBAR -->
+<div id='social-sidebar'>
+    <ul>
+       <?php if( Social::find(1)->twitterLink !== '' ): ?>
+        <li>
+            <a class='entypo-twitter' href='<?php echo Social::find(1)->twitterLink; ?>' target='_blank'>
+               <i class="fa fa-twitter "></i>
+                <span>Twitter</span>
+            </a>
+        </li>
+        <?php endif; ?>
+        <?php if(Social::find(1)->facebookLink !== ''): ?>
+        <li>
+            <a class='entypo-facebook' href='<?php echo Social::find(1)->facebookLink; ?>' target='_blank'>
+                 <i class="fa fa-facebook "></i>
+                <span>facebook</span>
+            </a>
+        </li>
+        <?php endif; ?>
+        <?php if(Social::find(1)->googlePlusLink !== ''): ?>
+        <li>
+            <a class='entypo-gplus' href='<?php echo Social::find(1)->googlePlusLink; ?>' target='_blank'>
+                <i class="fa fa-google-plus "></i>
+                <span>google+</span>
+            </a>
+        </li>
+        <?php endif; ?>
+    </ul>
+</div>
+<!-- /#SOCIAL Media SIDEBAR -->
+<?php endif; ?>
+<!-- Start Page Content -->     
+
+
+<div class="container">
+<?php if( $data['topAds'] ): ?>
+<!-- Top Advertising Area  -->
+<div class="col-md-12 ">
+<div class="ads-top">
+    <?php echo $data['topAds']; ?>
+
+</div>
+</div>
+<!-- /# TopAdvertising Area  -->
+<?php endif; ?>
+
+<div  class="col-md-12 ">
+
+        <div class="panel panel-primary">
+          
+          <div class="panel-heading">
+            <i style="font-size:18px;" class="fa fa-dropbox">
+            </i> Guest Session Files         
+          </div>
+          
+          <div class="panel-body">
+
+           <div class="alert alert-warning" role="alert">
+             <i class="fa fa-exclamation-triangle"></i>
+              This Guest Session &amp; Files Expire After [<?php echo $data['SessionExpireAfter']; ?>] Day 
+            </div>
+                              <div class="clearfix"></div>
+                <div class="col-md-6">
+                <div id="message-success" style="display:none;" class="alert alert-success alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                  <strong>Well!</strong> 
+                  your message has been sent successfully.
+                </div>
+                <div id="message-error" style="display:none;" class="alert alert-danger alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                  <strong>Oop!</strong> 
+                  Sorry Email delivery failure.
+                </div>
+                  
+                   </div>
+                   <div class="clearfix"></div>
+                   
+            <div class="col-md-6 text-left">
+                       
+                        <?php echo Form::open( array(
+                            'role' => 'form'
+
+                        ) ); ?>
+
+                       
+                        <?php echo Form::label('email','Send Files Via Emails : '); ?>
+
+                       <br><small><i class="fa fa-info"></i>
+                        Use (Space) To Add Another Email</small>
+
+                       <?php echo Form::text('email','',array(
+                        'class'=>'form-control',
+                        'placeholder'=>'Recipient Emails',
+                        'id' => 'rec_email'
+                        )); ?>
+
+                                        <br>
+
+                    <?php echo Form::button('<i class="fa fa-send"></i> Send', array(
+                       'class' => 'btn btn-primary  btn-block',
+                       'id' => 'send'
+                       ));; ?>
+
+                        
+                    </div>
+                    
+                    <div class="clearfix"></div>
+                    <br>
+            <table id="table-pagination" data-toggle="table"
+
+               data-classes="table table-bordered table-striped table-hover"
+               data-search="true"
+               data-search-align="left"
+
+            >
+              <thead>
+                <tr >
+                    <th data-field="state" >
+                        <i class="fa fa-check-square-o"></i>
+                    </th>
+                    <th class="hidden-xs" data-sortable="true" data-field="id">
+                    <i class="fa fa-list-ol"></i>
+                    </th>
+                    <th class="hidden-xs" data-field="type"><i class="fa fa-filter"></i></th>
+                    <th data-search="true" data-field="name"><i class="fa fa-file-text-o"></i> Name</th>
+                    <th class="hidden-xs" data-search="false" data-field="size">
+                        <i class="fa fa-crosshairs"></i> Size
+                    </th>
+                    <th class="hidden-xs" data-search="false" data-field="uploadAt">
+                        <i class="fa fa-clock-o"></i> Upload time
+                    </th>
+                    <th class="hidden-xs" title="File Status" data-search="false" data-field="status">
+                        <i class="fa fa-globe"></i>
+                    </th>
+                    <th class="hidden-xs" data-search="false" data-field="downloadCounter">
+                      <i class="fa fa-cloud-download"></i> 
+                    </th>
+                    <th data-search="false" data-field="fileLink"><i class="fa fa-link"></i> File Link</th>
+                    <th data-search="false" data-field="fileOptions"><i class="fa fa-link"></i>  Options</th>
+
+                </tr>                
+             
+                </thead>
+                <tbody style="text-align:left;">
+                   
+                    <?php foreach($data['guestFiles'] as $key=>$file): ?>
+                    
+                    <tr id="tr-<?php echo $key+1; ?>" >
+                       
+                        <td >
+
+                        <?php echo Form::checkbox('selectedFiles[]',$file->id,null,
+                          array(
+                           'id'=> 'select-'.($key +1),
+                           'data-id' => $file->id)
+                           ); ?>
+
+                        
+                        </td>
+                       
+                        <td class="hidden-xs" style="display:none;" data-field="id">
+
+<?php echo ((($data['guestFiles']->getCurrentPage() - 1)* $data['guestFiles']->getPerPage()) + $key+1); ?>
+
+                       
+                        </td>
+                        <td class="hidden-xs" data-field="type">
+                         
+                          <?php if($file->fileExt === 'jpg' ): ?>
+                            <i class="fa fa-picture-o"></i> <?php echo $file->fileExt; ?> 
+                          <?php elseif($file->fileExt === 'jpg'): ?>
+                            <i class="fa fa-picture-o"></i> <?php echo $file->fileExt; ?>
+
+                          <?php elseif($file->fileExt === 'png'): ?>
+                            <i class="fa fa-picture-o"></i> <?php echo $file->fileExt; ?>
+
+                          <?php elseif($file->fileExt === 'zip'): ?>
+                            <i class="fa fa-file-archive-o"></i> <?php echo $file->fileExt; ?>
+
+                          <?php elseif($file->fileExt === 'mp3'): ?>
+                            <i class="fa fa-music"></i> <?php echo $file->fileExt; ?>
+
+                          <?php elseif($file->fileExt === 'exe'): ?>
+                            <i class="fa fa-cog"></i> <?php echo $file->fileExt; ?>
+
+                          <?php elseif($file->fileExt === 'mp4'): ?>
+                            <i class="fa fa-film"></i> <?php echo $file->fileExt; ?>
+
+                          <?php else: ?>
+                            <i class="fa fa-file-text-o"></i> <?php echo $file->fileExt; ?>
+
+                          <?php endif; ?>
+                        </td>
+                        <td data-field="name">
+                          <?php echo mb_substr($file->fileName,0,10,"utf-8"); ?>
+
+                        </td>
+                        <td class="hidden-xs" data-field="size">
+                          <?php echo formatFileSize( $file->fileSize ); ?>
+
+                        </td>
+                        <td class="hidden-xs" data-field="uploadAt">
+                          <?php echo Carbon::createFromFormat('Y-m-d H:i:s', $file->created_at)->diffForHumans();; ?>
+
+                        </td>
+                        <td class="hidden-xs" data-field="status">
+                          <?php if($file->fileStatus == 1 ): ?>
+                          <i class="fa fa-check"></i>
+                          <?php else: ?>
+                          <i class="fa fa-times"></i> 
+                          <?php endif; ?>
+                        </td>                   
+                        <td class="hidden-xs" data-field="downloadCounter">
+                            <?php echo $file->fileDownloadCounter; ?>
+
+                        </td>
+                        <td data-field="fileLink">
+                            <a target="_blank" style="text-decoration:underline;
+                            font-size:14px;" href="<?php echo $file->filePath; ?>">
+                             <i class="fa fa-external-link"></i>
+                              <?php echo mb_substr(html_entity_decode($file->fileName),0,10,"utf-8"); ?>
+
+                            </a>
+                        </td>
+                        <td data-field="fileOptions">
+                            <a style="font-size:18px; margin:0 10px;"
+                                id="delete-<?php echo $key+1; ?>" data-id="<?php echo $file->id; ?>"
+                                role="button" class="delete_confirm"
+                             >
+                              <i class="fa fa-trash"></i>
+                            </a>
+                            
+                            <a  style="font-size:18px;"
+                                id="lock-<?php echo $key+1; ?>" data-id="<?php echo $file->id; ?>"
+                                role="button" class="lock_confirm">
+                                
+                                <?php if( count(LockFile::where('fileId','=',$file->id)->get()) ): ?>
+                                    <i class="fa fa-lock"></i>
+                                <?php else: ?>
+                                    <i class="fa fa-unlock"></i>
+                                <?php endif; ?>
+                            </a>
+                        </td>
+                    </tr>
+                    
+                    <?php endforeach; ?>
+                </tbody>
+              
+            </table>
+                <?php echo $data['guestFiles']->links(); ?> 
+
+          </div>
+          
+        </div> <!-- /# END panel default -->
+
+</div>
+
+    <?php if( $data['bottomAds'] ): ?>
+    <!-- bottom Advertising Area  -->
+    <div class="col-md-12">
+        <div class="ads-bottom">
+            <?php echo $data['bottomAds']; ?>
+
+        </div>
+    </div>
+    <!-- /# bottom Advertising Area  -->
+    <?php endif; ?>
+
+</div>
+    
+    <!-- jQuery -->
+    <?php echo HTML::script('public/themes/z-Responsive/assets/js/jquery-1.11.3.min.js'); ?>
+
+    <!-- Bootstrap Core JavaScript -->
+    <?php echo HTML::script('public/themes/z-Responsive/assets/js/bootstrap.min.js'); ?>    
+    <?php echo HTML::script('public/themes/z-Responsive/assets/js/tables.min.js'); ?>
+
+    <?php echo HTML::script('public/themes/z-Responsive/assets/js/jquery.frontbox-1.1.js'); ?>
+
+<?php echo HTML::script('public/themes/z-Responsive/assets/js/multiple-emails.js'); ?>
+
+
+
+<script language="javascript">
+$(document).ready(function(){
+    
+    // Callback Function To Get Delete ID
+    function createCallback( i ){
+        return function(){
+            window.id = $(this).data("id");
+            window.tr = i;
+        }
+    }
+    
+    function e_createCallback( e ){
+        return function(){
+            window.eid = $(this).data("id");
+            window.etr = e;
+
+        }
+    }
+
+    // Delete OK/Cancel Question
+    $(".delete_confirm").click(function() {
+
+        (new FrontBox).yes_no("are you sure you want to delete this file ?",
+                              "<i class='fa fa-trash'></i> Confirm File Delete").callback(function(btn){
+
+            if(btn == 'yes' ){
+              $.ajax({
+                  
+                        url: window.location+'/delete',
+                        type: 'DELETE',
+                        dataType: "JSON",
+                        data: {
+                            "id": id,
+                            "_token": "<?php echo csrf_token(); ?>"
+                        },
+                        success: function (){
+                            $('#tr-' + tr).hide('slow').remove();
+                            console.log("deleted");
+                        }
+                });
+
+                console.log("It failed");
+            }
+        });
+    });
+
+    
+    // Lock Question
+    $(".lock_confirm").click(function() {
+
+        (new FrontBox).text("Please Insert Password (Leave empty to unlock):",
+                              "<i class='fa fa-lock'></i> Lock|unLock File  ").callback(function(btn,ans){
+
+            if(btn == 'ok' ){
+              $.ajax({
+                        url: window.location+'/lock',
+                        type: 'PUT',
+                        dataType: "JSON",
+                        data: {
+                            "eid": eid,
+                            "password":ans,
+                            "_token": "<?php echo csrf_token(); ?>"
+                        },
+                        success: function (){
+                            if($('#lock-' + etr + ' i').hasClass('fa fa-unlock') && ans.val != ''){
+                                $('#lock-' + etr + ' i')
+                                    .removeClass('fa fa-unlock').addClass('fa fa-lock')
+                                    .css('color','red');
+                            }else if($('#lock-' + etr + ' i').hasClass('fa fa-lock') && ans.val != ''){
+                                $('#lock-' + etr + ' i')
+                                    .removeClass('fa fa-lock').addClass('fa fa-unlock')
+                                    .css('color','red');
+                                
+                            }else if($('#lock-' + etr + ' i').hasClass('fa fa-lock') && ans.val == ''){
+                                $('#lock-' + etr + ' i')
+                                    .removeClass('fa fa-lock').addClass('fa fa-unlock')
+                                    .css('color','red');
+                                
+                            }
+                                console.log("locked");
+
+                        }
+                });
+
+                console.log("It failed");
+            }
+        });
+    });
+
+    
+  // Delete File Loop To get Clicked Item ID
+  for(var i = 1; i <= <?php echo $data['totalFiles']; ?>; i++) {
+      $('#delete-' + i).click( createCallback( i ) );  
+  }
+
+  // Lock File Loop To get Clicked Item ID
+  for(var e = 1; e <= <?php echo $data['totalFiles']; ?>; e++) {
+      $('#lock-' + e).click( e_createCallback( e ) );  
+  }
+        
+});
+    
+    // Callback Function To Get Delete ID
+    function createCallback( i ){
+        return function(){
+            window.id = $(this).data("id");
+            window.tr = i;
+        }
+    }
+
+/* SEND FILES */    
+    $("#send").click(function() {
+                $(this).removeClass('btn btn-primary').addClass('btn btn-primary m-progress btn-disabled');
+
+            var arr = $.map($('input:checkbox:checked'), function(e,i) {
+                return +e.value;
+            });
+        var email = $("#rec_email").val(); 
+
+
+              $.ajax({
+
+                url: window.location+'/sendFiles',
+                type: 'post',
+                dataType: "JSON",
+                data: {
+                    "email": email,
+                    "id": arr,
+                    "_token": "<?php echo csrf_token(); ?>"
+                },
+                success: function (){
+                        $('#send').removeClass("btn btn-primary m-progress btn-disabled").addClass('btn btn-primary');
+                    $('#message-success').css({"display":"block"})
+
+                },error: function (){
+                        $('#send').removeClass("btn btn-primary m-progress btn-disabled").addClass('btn btn-primary');
+                    $('#message-error').css({"display":"block"})
+                }
+        });
+    });
+        
+
+    // select File Loop To get Checked Item ID
+      for(var u = 1; u <= <?php echo $data['totalFiles']; ?>; u++) {
+          $('#select-' + u).click( createCallback( u ) );  
+      }
+
+
+
+    		//Plug-in function for the bootstrap version of the multiple email
+		$(function() {
+			//To render the input device to multiple email input using BootStrap icon
+			$('#rec_email').multiple_emails();
+			//OR $('#example_emailBS').multiple_emails("Bootstrap");
+		
+		});
+
+</script>
+   
+    
+</body>

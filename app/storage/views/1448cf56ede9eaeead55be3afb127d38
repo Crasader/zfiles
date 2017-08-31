@@ -1,0 +1,17 @@
+
+
+<?php $__env->startSection('confirm_email'); ?>
+
+    <div style=" padding: 30px 15px;" class="header-content">
+        <div class="header-content-inner" style="color: #fefefe;">
+            <h1>Please confirm email <b><?php echo Auth::user()->email; ?></b> to continue !
+            </br>
+
+            </br>
+                If you have not received the confirmation email, <a style="color: red;" href="<?php echo url('user/' . Auth::user()->username . '/' . 'send_back_email'); ?>">Sendback</a> !
+            </h1>
+        </div>
+    </div>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('user.--index', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

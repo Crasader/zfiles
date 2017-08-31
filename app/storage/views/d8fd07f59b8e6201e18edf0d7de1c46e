@@ -1,0 +1,93 @@
+<?php $__env->startSection('style'); ?>
+    <!-- Confirm Dialog css -->
+    <?php echo HTML::style('public/themes/defualt/assets/css/jquery.frontbox-1.1.css'); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('transaction'); ?>
+
+    <div class="header-content">
+
+        <div class="col-md-12">
+
+            <div class="panel panel-primary">
+
+                <div class="panel-heading">
+                    <i style="font-size:18px;" class="fa fa-dropbox">
+                    </i> Your Transaction
+                </div>
+
+                <div class="panel-body">
+
+
+
+
+
+                    <table id="table-pagination" data-toggle="table"
+
+                           data-classes="table table-bordered table-striped table-hover"
+
+
+                    >
+                        <thead>
+                        <tr >
+
+                            <th data-search="true" data-field="name"><i class="fa fa-windows"></i> Content</th>
+                            <th class=" hidden-xs" data-search="false" data-field="date">
+                                <i class="fa fa-clock-o"></i> Date
+                            </th>
+                            <th class=" hidden-xs" data-search="false" data-field="status">
+                                <i class="fa fa-cog"></i> Status
+                            </th>
+
+                            <th class=" hidden-xs" data-search="false" data-field="aor">
+                                <i class="fa fa-cog"></i> Approved Or Rejected
+                            </th>
+
+
+                        </tr>
+
+                        </thead>
+                        <tbody style="text-align:left;">
+                        <?php foreach(Transactions::where('user_id', $data['user']->id)->get() as $item): ?>
+                        <tr>
+
+
+                            <td><?php echo $item->content; ?></td>
+                            <td><?php echo $item->transactionDate; ?></td>
+                            <td><?php echo $item->pay_status  == 0 ? "Error" : "Success"; ?></td>
+                            <td><?php echo $item->status  == 0 ? "Pending" : ($item->status == 1 ? "Approved" : "Rejected"); ?></td>
+
+                        </tr>
+
+                        <?php endforeach; ?>
+
+
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+
+            </div> <!-- /# END panel default -->
+
+        </div> <!-- /# END col-md 12 -->
+
+    </div> <!-- /# END HEADER CONTETNT -->
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('javascript'); ?>
+    <!-- Bootstrap Core JavaScript -->
+    <?php echo HTML::script('public/themes/defualt/assets/js/tables.min.js'); ?>
+
+    <?php echo HTML::script('public/themes/defualt/assets/js/jquery.frontbox-1.1.js'); ?>
+
+
+
+
+<?php $__env->stopSection(); ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('user.--index', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

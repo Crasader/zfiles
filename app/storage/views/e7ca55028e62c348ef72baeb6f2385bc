@@ -1,0 +1,190 @@
+<?php $__env->startSection('style'); ?>
+    <!-- Confirm Dialog css -->
+    <?php echo HTML::style('public/themes/defualt/assets/css/jquery.frontbox-1.1.css'); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('profit'); ?>
+
+    <div class="header-content">
+
+        <div class="col-md-12">
+
+            <div class="panel panel-primary">
+
+                <div class="panel-heading">
+                    <i style="font-size:18px;" class="fa fa-dropbox">
+                    </i> Your Profit
+                </div>
+
+                <div class="panel-body">
+
+                    <div class="row">
+
+                        <div class="clearfix"></div>
+                        <div class="col-md-6 text-left">
+                            <label for="email">Referral Link : </label>
+
+                            <input style="margin-bottom:0px;" class="form-control" type="text" value="<?php echo url('/signup?referral_link='.Auth::user()->id ); ?>" readonly="">
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="clearfix"></div>
+                        <div class="col-md-6 text-left">
+
+                            <label for="email">Profit : </label>
+                        </div>
+
+                    </div>
+
+                    <table id="table-pagination" data-toggle="table"
+
+                           data-classes="table table-bordered table-striped table-hover"
+
+
+                    >
+                        <thead>
+                        <tr >
+
+                            <th class=" hidden-xs" data-field="type"><i class="fa fa-filter"></i></th>
+                            <th data-search="true" data-field="name"><i class="fa fa-sort-numeric-desc"></i> Number</th>
+                            <th class=" hidden-xs" data-search="false" data-field="size">
+                                <i class="fa fa-dollar"></i> Total
+                            </th>
+
+
+                        </tr>
+
+                        </thead>
+                        <tbody style="text-align:left;">
+                        <tr>
+
+                            <td>Download</td>
+
+                            <td><?php echo $data['number_of_download']; ?></td>
+                            <td><?php echo $data['number_of_download'] * $data['plan']->profit/1000; ?> $</td>
+                        </tr>
+
+                        <tr>
+
+                            <td>Referral</td>
+
+                            <td><?php echo $data['number_of_referral']; ?></td>
+                            <td><?php echo $data['number_of_referral'] * $data['plan']->referral_profit; ?> $</td>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td><?php echo $data['number_of_download'] * $data['plan']->profit/1000 + $data['number_of_referral'] * $data['plan']->referral_profit; ?> $</td>
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+                    <?php if( $data['number_of_download'] * $data['plan']->profit/1000 + $data['number_of_referral'] * $data['plan']->referral_profit >= 10 ): ?>
+                    <div class="row">
+
+                        <div class="clearfix"></div>
+
+                        <div class="col-md-4">
+                        </div>
+
+                        <div class="col-md-4">
+                        </div>
+
+                        <div class="col-md-4 text-left">
+                            <form action="<?php echo url('user/' . Auth::user()->username . '/require_withdraw' ); ?>" method="post">
+                                <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                                <button class="btn btn-primary  btn-block " id="send" type="submit"><i class="fa fa-send"></i> Request Payment</button>
+                            </form>
+
+                        </div>
+
+                    </div>
+                    <?php endif; ?>
+
+                    <div class="row">
+
+                        <div class="clearfix"></div>
+                        <div class="col-md-6 text-left">
+
+                            <label for="email">Payments : </label>
+                        </div>
+
+                    </div>
+
+                    <table id="table-pagination" data-toggle="table"
+
+                           data-classes="table table-bordered table-striped table-hover"
+
+
+                    >
+                        <thead>
+                        <tr >
+
+
+                            <th class=" hidden-xs" data-search="false" data-field="profit">
+                                <i class="fa fa-dollar"></i> profit
+                            </th>
+
+                            <th class=" hidden-xs" data-search="false" data-field="date">
+                                <i class="fa fa-clock-o"></i> date
+                            </th>
+
+                            <th class=" hidden-xs" data-search="false" data-field="status">
+                                <i class="fa fa-cog"></i> status
+                            </th>
+
+
+                        </tr>
+
+                        </thead>
+                        <tbody style="text-align:left;">
+
+                        <?php foreach($data['invoices'] as $invoice): ?>
+                        <tr>
+
+                            <td><?php echo $invoice->profit; ?> $</td>
+                            <td><?php echo $invoice->date; ?></td>
+                            <td><?php echo $invoice->status == 0 ? 'pending' : 'paid'; ?></td>
+
+
+                        </tr>
+
+                            <?php endforeach; ?>
+
+
+
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+
+            </div> <!-- /# END panel default -->
+
+        </div> <!-- /# END col-md 12 -->
+
+    </div> <!-- /# END HEADER CONTETNT -->
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('javascript'); ?>
+    <!-- Bootstrap Core JavaScript -->
+    <?php echo HTML::script('public/themes/defualt/assets/js/tables.min.js'); ?>
+
+    <?php echo HTML::script('public/themes/defualt/assets/js/jquery.frontbox-1.1.js'); ?>
+
+
+
+
+<?php $__env->stopSection(); ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('user.--index', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

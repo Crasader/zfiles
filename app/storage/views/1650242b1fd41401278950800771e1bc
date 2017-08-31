@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<meta charset="utf-8">
+	</head>
+	<body>
+		<h2>Hi, <?php echo $data['username']; ?></h2>
+		<h3>Welcome to <?php echo Settings::find(1)->sitename; ?></h3>
+
+		<div>
+			Your sign up details are below:
+		</div><br>
+		<div>E-mail : <?php echo $data['email']; ?></div>
+		<div>Username : <?php echo $data['username']; ?></div><br><br>
+		<hr>
+		<span>Regards,</span><br><br>
+		<span><?php echo Settings::find(1)->sitename; ?> Team</span>
+	</body>
+</html>

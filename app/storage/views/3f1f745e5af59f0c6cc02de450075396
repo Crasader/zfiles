@@ -1,0 +1,207 @@
+<?php $__env->startSection('admin.main'); ?>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h4 class="page-header">
+                <i class="fa fa-fw fa-columns"></i> Transactions
+            </h4>
+            <ol class="breadcrumb">
+                <li class="active">
+                    <i class="fa fa-dashboard"></i> Dashboard
+
+                </li>
+
+                <li class="active">
+                    <i class="fa fa-fw fa-columns"></i> Payments
+                </li>
+
+                <li >
+                    <i class="fa fa-fw fa-columns"></i> Show Payments
+                </li>
+            </ol>
+        </div>
+    </div>
+    <!-- /.row -->
+
+
+    <div class="row">
+
+
+        <?php if(Session::has('Message')): ?>
+            <div class="col-md-12">
+                <?php echo Session::get('Message'); ?>
+
+            </div>
+
+        <?php endif; ?>
+
+            <div class="col-md-6 ">
+                <p class="align-right">
+                    <a href="<?php echo url('admin/transactions/deleteAll'); ?>"
+                       class="confirm btn btn-danger btn-md">
+                        <i class="fa fa-trash"></i> Delete All Payments
+                    </a>
+                </p>
+            </div>
+
+
+        <div class="col-md-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+
+                    All Payments
+
+                </div>
+
+                <div class="panel-body">
+
+                    <table id="table-pagination" data-toggle="table" data-classes="table table-bordered table-striped table-hover"
+                           data-classes="table table-bordered table-striped table-hover"
+               data-search="true"
+               data-search-align="left"
+                           >
+
+                        <thead>
+                        <tr >
+
+                            <th data-search="true" data-field="username"><i class="fa fa-columns"></i> Username</th>
+
+
+                            <th data-search="false" data-field="payment_method">
+                                <i class="fa fa-link"></i> Payment Method
+                            </th>
+
+                            <th data-search="false" data-field="txnId">
+                                <i class="fa fa-openid"></i> Transaction ID
+                            </th>
+
+                            <th data-search="false" data-field="content">
+                                <i class="fa fa-link"></i> Content
+                            </th>
+
+
+                            <th data-search="false" data-field="date">
+                                <i class="fa fa-link"></i> Date
+                            </th>
+
+                            <th data-search="false" data-field="pay_status">Pay Status</th>
+                            <th data-search="false" data-field="Status">Status</th>
+
+
+                            <th data-search="false" data-field="Reject">Op</th>
+
+                            <th data-search="false" data-field="Approve">Op</th>
+
+
+                        </tr>
+
+                        </thead>
+                        <tbody style="text-align:left;">
+
+                        <?php foreach($data['transactions'] as $key => $transaction): ?>
+
+
+                            <tr id="tr-<?php echo $key+1; ?>" >
+
+                                <td data-field="username">
+                                    <?php echo User::find($transaction->user_id)->username; ?>
+
+                                </td>
+
+                                <td data-field="payment_method">
+                                    <?php echo $transaction->payment_method_id == 1 ? "Paypal" : "Payoneer"; ?>
+
+                                </td>
+
+                                <td data-field="txnId">
+                                    <?php echo $transaction->txnId; ?>
+
+                                </td>
+
+                                <td data-field="content">
+                                    <?php echo $transaction->content; ?>
+
+                                </td>
+
+                                <td data-field="date">
+                                    <?php echo $transaction->transactionDate; ?>
+
+                                </td>
+
+                                <td data-field="pay_status">
+                                    <?php if($transaction->pay_status == 0): ?>
+                                        <?php echo 'Error'; ?>
+
+                                    <?php elseif($transaction->pay_status == 1): ?>
+                                        <?php echo 'Success'; ?>
+
+                                    <?php endif; ?>
+
+                                </td>
+
+                                <td data-field="status">
+                                    <?php if($transaction->status == 0): ?>
+                                      <?php echo 'Pending'; ?>
+
+                                    <?php elseif($transaction->status == 1): ?>
+                                        <?php echo 'Rejected'; ?>
+
+                                    <?php elseif($transaction->status == 2): ?>
+                                        <?php echo 'Approved'; ?>
+
+                                    <?php endif; ?>
+
+                                </td>
+
+
+
+                                <?php if($transaction->status == 0): ?>
+                                    <td data-field="Reject">
+                                        <a class="confirm" style="font-size:18px;"
+                                           href="<?php echo url('admin/transactions/reject/'.$transaction->id); ?>"> Reject
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+
+                                    </td>
+
+                                    <td data-field="Approve">
+                                        <a class="confirm" style="font-size:18px;"
+                                           href="<?php echo url('admin/transactions/approve/'.$transaction->id); ?>"> Approve
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+
+                                    </td>
+                                <?php endif; ?>
+
+
+
+                            </tr>
+
+                        <?php endforeach; ?>
+                        </tbody>
+
+                    </table>
+                    <?php echo $data['transactions']->links(); ?>
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+
+
+
+    </div>
+
+
+
+
+<?php $__env->stopSection(); ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.index', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
